@@ -89,7 +89,12 @@ def create_app(config_class=Config):
     with app.app_context():
         # Import models so SQLAlchemy creates tables
         import models
-        run_migrations()
+        # Run SQLite-specific migrations only when using SQLite.
+        if db.engine.url.get_backend_name() == "sqlite":
+            run_migrations()
+        else:
+            print("[Migration] Skipping SQLite migrations for non-SQLite database.")
+
         db.create_all()
 
     # CLI Command: create-admin
