@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+
+{% block title %}Edit {{ incident.reference_id }} – IncidentFlow{% endblock %}
+{% block page_heading %}Edit {{ incident.reference_id }}{% endblock %}
+
+{% block content %}
+<div class="container py-2" style="max-width: 850px;">
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-0 pt-4 pb-2 px-4 d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="fw-bold text-dark mb-1"><i class="bi bi-pencil-square text-primary me-2"></i>Edit Incident {{
+                    incident.reference_id }}</h5>
+                <p class="text-secondary small mb-0">Modify attributes, update status, reclassify category or reassess
+                    priority tier.</p>
+            </div>
+            <span class="badge badge-status-{{ incident.status|lower|replace(' ', '-') }} fs-6">{{ incident.status
+                }}</span>
+        </div>
+
+        <div class="card-body p-4">
+            <form method="POST" action="{{ url_for('incidents.edit_incident', incident_id=incident.id) }}" novalidate>
+                {{ form.hidden_tag() }}
+
+                <!-- Incident Title -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold text-secondary small">
+                        Incident Title <span class="text-danger">*</span>
+                    </label>
+                    {{ form.title(class="form-control" + (" is-invalid" if form.title.errors else "")) }}
+                    {% for error in form.title.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <!-- Priority -->
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold text-secondary small">
+                            Priority <span class="text-danger">*</span>
+                        </label>
+                        {{ form.priority(class="form-select" + (" is-invalid" if form.priority.errors else "")) }}
+                        {% for error in form.priority.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                        <div class="form-text small">Updating priority recalculates the SLA due date.</div>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold text-secondary small">
+                            Lifecycle Status <span class="text-danger">*</span>
+                        </label>
+                        {{ form.status(class="form-select" + (" is-invalid" if form.status.errors else "")) }}
+                        {% for error in form.status.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Category -->
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold text-secondary small">
+                            Category <span class="text-danger">*</span>
+                        </label>
+                        {{ form.category(class="form-select" + (" is-invalid" if form.category.errors else "")) }}
+                        {% for error in form.category.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Assignment -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold text-secondary small">
+                        Assignee
+                    </label>
+                    {{ form.assigned_user_id(class="form-select" + (" is-invalid" if form.assigned_user_id.errors else
+                    "")) }}
+                    {% for error in form.assigned_user_id.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <!-- Description -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold text-secondary small">
+                        Description & Notes <span class="text-danger">*</span>
+                    </label>
+                    {{ form.description(class="form-control" + (" is-invalid" if form.description.errors else ""),
+                    rows=6) }}
+                    {% for error in form.description.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                    <a href="{{ url_for('incidents.view_incident', incident_id=incident.id) }}" class="btn btn-light">
+                        <i class="bi bi-arrow-left me-1"></i> Back to Details
+                    </a>
+                    <button type="submit" class="btn btn-primary px-4 shadow-sm">
+                        <i class="bi bi-check2 me-1"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

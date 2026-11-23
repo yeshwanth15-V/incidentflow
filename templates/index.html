@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incident Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <h1>Incident Management System</h1>
+    <p>Manage and track your incidents.</p>
+
+    <h2>Welcome to the Dashboard</h2>
+
+    <div class="dashboard">
+
+        <div class="card">
+            <h3>Total Incidents</h3>
+            <h1>{{ total }}</h1>
+        </div>
+
+        <div class="card">
+            <h3>Open Incidents</h3>
+            <h1>{{ open_count }}</h1>
+        </div>
+
+        <div class="card">
+            <h3>High Priority</h3>
+            <h1>{{ high_count }}</h1>
+        </div>
+
+    </div>
+
+<h2>Create New Incident</h2>
+
+<form action="/incidents" method="POST">
+
+    <input type="text" name="title"
+           placeholder="Incident Title" required>
+
+    <br><br>
+
+    <textarea name="description"
+              placeholder="Incident Description"
+              required></textarea>
+
+    <br><br>
+
+    <select name="priority" required>
+        <option value="">Select Priority</option>
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+    </select>
+
+    <br><br>
+
+    <input type="text" name="assigned_to"
+           placeholder="Assigned To">
+
+    <br><br>
+
+    <button type="submit">Create Incident</button>
+
+</form>
+
+
+<h2>All Incidents</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Assigned To</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for incident in incidents %}
+        <tr>
+            <td>{{ incident.id }}</td>
+            <td>{{ incident.title }}</td>
+            <td>{{ incident.priority }}</td>
+            <td>
+    <span class="status-badge {{ incident.status|lower|replace(' ', '-') }}">
+        {{ incident.status }}
+    </span>
+</td>
+            <td>{{ incident.assigned_to }}</td>
+
+<td>
+    <button onclick="updateIncident('{{ incident.id }}')">
+        Update
+    </button>
+
+    <button onclick="deleteIncident('{{ incident.id }}')">
+        Delete
+    </button>
+</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="6">No incidents found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>

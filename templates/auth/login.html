@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In – IncidentFlow{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5 col-lg-4">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <div class="bg-primary text-white p-4 text-center">
+                    <div class="brand-icon mx-auto mb-2 rounded-circle bg-white text-primary d-flex align-items-center justify-content-center" style="width: 54px; height: 54px;">
+                        <i class="bi bi-shield-lock-fill fs-3"></i>
+                    </div>
+                    <h4 class="fw-bold mb-1">IncidentFlow</h4>
+                    <p class="text-white-50 small mb-0">IT Incident Operations Platform</p>
+                </div>
+
+                <div class="card-body p-4">
+                    <form method="POST" action="{{ url_for('auth.login', next=request.args.get('next')) }}" novalidate>
+                        {{ form.hidden_tag() }}
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-secondary small">Username or Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-person text-muted"></i></span>
+                                {{ form.username(class="form-control" + (" is-invalid" if form.username.errors else ""), placeholder="Enter your username or email", autofocus=true) }}
+                            </div>
+                            {% for error in form.username.errors %}
+                                <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-secondary small">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-key text-muted"></i></span>
+                                {{ form.password(class="form-control" + (" is-invalid" if form.password.errors else ""), placeholder="Enter your password") }}
+                            </div>
+                            {% for error in form.password.errors %}
+                                <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-4 form-check">
+                            {{ form.remember_me(class="form-check-input") }}
+                            <label class="form-check-label text-secondary small" for="remember_me">Remember my login</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold shadow-sm">
+                            <i class="bi bi-box-arrow-in-right me-1"></i> Sign In to IncidentFlow
+                        </button>
+                    </form>
+                </div>
+
+                <div class="card-footer bg-light p-3 border-top text-center small text-muted">
+                    <i class="bi bi-info-circle me-1"></i> Initial admin setup: <code class="text-dark">flask create-admin</code>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

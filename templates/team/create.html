@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Add Team Member – IncidentFlow{% endblock %}
+{% block page_heading %}Add Team Member{% endblock %}
+
+{% block content %}
+<div class="container py-2" style="max-width: 650px;">
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-0 pt-4 pb-2 px-4">
+            <h5 class="fw-bold text-dark mb-1"><i class="bi bi-person-plus text-primary me-2"></i>Create New Team Member</h5>
+            <p class="text-secondary small mb-0">Provision an Administrator or Support Agent account for the operations team.</p>
+        </div>
+
+        <div class="card-body p-4">
+            <form method="POST" action="{{ url_for('team.create_member') }}" novalidate>
+                {{ form.hidden_tag() }}
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold text-secondary small">Full Name <span class="text-danger">*</span></label>
+                    {{ form.full_name(class="form-control" + (" is-invalid" if form.full_name.errors else ""), placeholder="e.g. Jordan Smith") }}
+                    {% for error in form.full_name.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold text-secondary small">Username <span class="text-danger">*</span></label>
+                        {{ form.username(class="form-control" + (" is-invalid" if form.username.errors else ""), placeholder="e.g. jordan.smith") }}
+                        {% for error in form.username.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold text-secondary small">Role <span class="text-danger">*</span></label>
+                        {{ form.role(class="form-select" + (" is-invalid" if form.role.errors else "")) }}
+                        {% for error in form.role.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold text-secondary small">Email Address <span class="text-danger">*</span></label>
+                    {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else ""), placeholder="name@incidentflow.local") }}
+                    {% for error in form.email.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold text-secondary small">Initial Password <span class="text-danger">*</span></label>
+                        {{ form.password(class="form-control" + (" is-invalid" if form.password.errors else ""), placeholder="Minimum 6 characters") }}
+                        {% for error in form.password.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold text-secondary small">Confirm Password <span class="text-danger">*</span></label>
+                        {{ form.confirm_password(class="form-control" + (" is-invalid" if form.confirm_password.errors else "")) }}
+                        {% for error in form.confirm_password.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                    <a href="{{ url_for('team.index') }}" class="btn btn-light">
+                        <i class="bi bi-arrow-left me-1"></i> Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary px-4 shadow-sm">
+                        <i class="bi bi-check2-circle me-1"></i> Create Member
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
