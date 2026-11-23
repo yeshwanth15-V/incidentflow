@@ -204,3 +204,19 @@ B.Tech Information Technology
 ---
 
 *IncidentFlow – Built to demonstrate practical application development and DevOps automation.*
+
+---
+
+## 📸 Project Screenshots
+
+### Dashboard
+![IncidentFlow Dashboard](screenshots/dashboard.jpeg)
+
+### Incident Management
+![Incident Management](screenshots/incidents.jpeg)
+
+### GitHub Actions CI/CD Pipeline
+![GitHub Actions Pipeline](screenshots/pipeline.jpeg)
+
+### AWS EC2 Deployment
+![AWS EC2 Deployment](screenshots/ec2-deployment.jpeg)
